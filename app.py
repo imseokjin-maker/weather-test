@@ -76,7 +76,7 @@ elif st.session_state.step == 'survey':
             conn = st.connection("gsheets", type=GSheetsConnection)
             
             # 기존 데이터 읽기
-            existing_data = conn.read(spreadsheet=SHEET_URL, usecols=[0,1,2])
+            existing_data = conn.read(spreadsheet=SHEET_URL)
             
             # 새 데이터 한 줄 만들기
             new_row = pd.DataFrame([{
@@ -100,5 +100,6 @@ elif st.session_state.step == 'survey':
         except Exception as e:
             st.error(f"저장 중 오류가 발생했습니다: {e}")
             st.info("구글 시트의 공유 설정이 '편집자'로 되어 있는지 확인하세요.")
+
 
 
