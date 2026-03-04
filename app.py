@@ -15,7 +15,8 @@ try:
     
     # AI 모델 설정 (가장 안정적인 모델명 사용)
     genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    #model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('models/gemini-1.5-flash')
 except Exception as e:
     st.error(f"설정 불러오기 실패: {e}")
     st.info("Streamlit Cloud의 Settings > Secrets에 키가 정확히 입력되었는지 확인하세요.")
@@ -99,3 +100,4 @@ elif st.session_state.step == 'survey':
         except Exception as e:
             st.error(f"저장 중 오류가 발생했습니다: {e}")
             st.info("구글 시트의 공유 설정이 '편집자'로 되어 있는지 확인하세요.")
+
