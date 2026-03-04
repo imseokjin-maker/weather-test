@@ -36,7 +36,7 @@ if st.session_state.step == 'chat':
     
     if st.button("AI 답변 듣기"):
         if question:
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            model = genai.GenerativeModel('gemini-1.5-flash-latest')
             # 실험용 페르소나 주입
             prompt = f"당신은 {st.session_state.group} 톤을 가진 날씨 비서입니다. 실제 데이터는 없으니 서울 날씨가 맑다고 가정하고 한 문장으로 대답하세요."
             response = model.generate_content(prompt)
@@ -74,4 +74,5 @@ elif st.session_state.step == 'survey':
             st.balloons()
             st.success("✅ 결과가 안전하게 저장되었습니다! 협조해주셔서 감사합니다.")
         except Exception as e:
+
             st.error(f"저장 중 오류가 발생했습니다: {e}")
