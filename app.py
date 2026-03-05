@@ -74,7 +74,7 @@ elif st.session_state.step == 'survey':
     # [설정] 교수님이 복사한 구글 폼 링크의 'entry' 번호와 등호(=)까지만 넣으세요.
     # 예: "https://docs.google.com/forms/d/e/.../viewform?usp=pp_url&entry.123456789="
     # 복사하신 링크 주소가 아래 예시와 다르다면 따옴표 안의 주소만 교체하시면 됩니다.
-    base_url = "https://docs.google.com/forms/d/e/1FAIpQLSd_example_url/viewform?usp=pp_url&entry.20456123="
+    base_url = "https://docs.google.com/forms/d/e/1FAIpQLSdCiF4lzxN5NRaOWIrgLsW9Tphs99FmtS6mLXAlCEKs75udXg/viewform?usp=pp_url&entry.41790104="
     
     # [로직] 현재 세션의 그룹(Positive 또는 Negative)을 주소 뒤에 자동으로 붙입니다.
     # 주의: 구글 폼의 옵션명과 st.session_state.group의 값이 대소문자까지 일치해야 합니다.
@@ -98,6 +98,7 @@ elif st.session_state.step == 'survey':
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
+
 
 
 
