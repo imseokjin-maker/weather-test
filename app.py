@@ -64,40 +64,26 @@ if st.session_state.step == 'chat':
             st.rerun()
 
 # --- 2단계: 설문 및 저장 화면 ---
+# --- 2단계: 설문 및 저장 화면 ---
 elif st.session_state.step == 'survey':
     st.title("📋 서비스 만족도 조사")
     st.write("방금 경험하신 날씨 안내 서비스는 어떠셨나요?")
+    st.write(f"현재 할당된 그룹: **{st.session_state.group}**")
     
-    rating = st.radio("만족도를 선택해주세요:", ["좋았음", "나빴음"])
+    st.info("아래 버튼을 클릭하여 설문을 완료해 주세요. 설문이 완료되어야 연구 데이터로 인정됩니다.")
     
-    if st.button("최종 결과 제출하기"):
-        try:
-            # 1. 구글 시트 연결
-            conn = st.connection("gsheets", type=GSheetsConnection)
-            
-            # 2. 새 데이터 한 줄 만들기 (DataFrame 형식)
-            new_row = pd.DataFrame([{
-                "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "Group": st.session_state.group,
-                "Rating": rating
-            }])
-            
-            # 3. [핵심 수정] 기존 데이터를 읽지 않고 시트 하단에 바로 추가
-            # 이 방식이 공개 시트(Public Spreadsheet) 환경에서 가장 오류가 적습니다.
-            conn.create(spreadsheet=SHEET_URL, data=new_row)
-            
-            st.balloons()
-            st.success("✅ 결과가 구글 시트에 성공적으로 저장되었습니다!")
-            
-            # 처음으로 돌아가는 버튼 (코드 구조상 이 위치가 좋습니다)
-            if st.button("처음으로 돌아가기"):
-                for key in list(st.session_state.keys()):
-                    del st.session_state[key]
-                st.rerun()
-                
-        except Exception as e:
-            st.error(f"저장 중 오류가 발생했습니다: {e}")
-            st.info("여전히 오류가 난다면 시트 공유 설정이 '편집자'인지 다시 한번 확인해주세요.")
+    # 구글 폼 링크 (교수님의 구글 폼 주소를 따옴표 안에 넣어주세요)
+    google_form_url = "https://docs.google.com/forms/d/e/XXXXX/viewform?usp=sf_link"
+    
+    # 클릭하면 구글 폼이 새 창으로 뜨는 버튼
+    st.link_button("설문 참여하고 완료하기", google_form_url, use_container_width=True)
+    
+    st.divider()
+    
+    if st.button("처음으로 돌아가기 (데이터 유실 주의)"):
+        st.session_state.clear()
+        st.rerun()
+
 
 
 
