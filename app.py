@@ -64,24 +64,39 @@ if st.session_state.step == 'chat':
             st.rerun()
 
 # --- 2단계: 설문 및 저장 화면 ---
-# --- 2단계: 설문 및 저장 화면 ---
+
 elif st.session_state.step == 'survey':
     st.title("📋 서비스 만족도 조사")
-    st.write("방금 경험하신 날씨 안내 서비스는 어떠셨나요?")
-    st.write(f"현재 할당된 그룹: **{st.session_state.group}**")
+    st.subheader("연구 데이터 수집을 위한 마지막 단계입니다.")
     
-    st.info("아래 버튼을 클릭하여 설문을 완료해 주세요. 설문이 완료되어야 연구 데이터로 인정됩니다.")
+    st.write("방금 경험하신 날씨 안내 서비스에 대해 솔직한 의견을 남겨주세요.")
     
-    # 구글 폼 링크 (교수님의 구글 폼 주소를 따옴표 안에 넣어주세요)
-    google_form_url = "https://docs.google.com/forms/d/e/XXXXX/viewform?usp=sf_link"
+    # [설정] 교수님이 복사한 구글 폼 링크의 'entry' 번호와 등호(=)까지만 넣으세요.
+    # 예: "https://docs.google.com/forms/d/e/.../viewform?usp=pp_url&entry.123456789="
+    # 복사하신 링크 주소가 아래 예시와 다르다면 따옴표 안의 주소만 교체하시면 됩니다.
+    base_url = "https://docs.google.com/forms/d/e/1FAIpQLSd_example_url/viewform?usp=pp_url&entry.20456123="
     
-    # 클릭하면 구글 폼이 새 창으로 뜨는 버튼
-    st.link_button("설문 참여하고 완료하기", google_form_url, use_container_width=True)
+    # [로직] 현재 세션의 그룹(Positive 또는 Negative)을 주소 뒤에 자동으로 붙입니다.
+    # 주의: 구글 폼의 옵션명과 st.session_state.group의 값이 대소문자까지 일치해야 합니다.
+    final_form_url = base_url + st.session_state.group
+    
+    st.info("""
+    **💡 안내사항**
+    1. 아래 버튼을 누르면 설문지 페이지가 새 창으로 열립니다.
+    2. 첫 번째 페이지의 '할당 그룹' 정보는 시스템이 자동으로 입력했으니 바로 **[다음]** 버튼을 눌러주세요.
+    3. 모든 문항에 답변 후 **[제출]**을 눌러야 연구 참여가 완료됩니다.
+    """)
+    
+    # 설문지 연결 버튼
+    st.link_button("🚀 설문 참여하고 완료하기", final_form_url, use_container_width=True)
     
     st.divider()
     
-    if st.button("처음으로 돌아가기 (데이터 유실 주의)"):
-        st.session_state.clear()
+    # 초기화 버튼
+    if st.button("처음으로 돌아가기 (새로운 대화 시작)"):
+        # 세션 상태 초기화 후 처음으로 이동
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
         st.rerun()
 
 
